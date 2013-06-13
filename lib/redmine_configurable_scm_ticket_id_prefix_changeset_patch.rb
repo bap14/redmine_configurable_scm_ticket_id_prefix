@@ -1,6 +1,6 @@
 require_dependency 'changeset'
 
-module MssConfigurableScmTicketIdPrefixChangesetPatch
+module RedmineConfigurableScmTicketIdPrefixChangesetPatch
 	def self.included(base)
 		base.send(:include, InstanceMethods)
 
@@ -61,4 +61,4 @@ module MssConfigurableScmTicketIdPrefixChangesetPatch
 	end
 end
 
-Changeset.send(:include, MssConfigurableScmTicketIdPrefixChangesetPatch)
+Changeset.send(:include, RedmineConfigurableScmTicketIdPrefixChangesetPatch)

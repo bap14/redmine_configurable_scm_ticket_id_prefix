@@ -1,6 +1,6 @@
 require_dependency 'application_helper'
 
-module MssConfigurableScmTicketIdPrefixApplicationHelperPatch
+module RedmineConfigurableScmTicketIdPrefixApplicationHelperPatch
 	def self.included(base)
 		base.send(:include, InstanceMethods)
 
@@ -159,4 +159,4 @@ module MssConfigurableScmTicketIdPrefixApplicationHelperPatch
 	end
 end
 
-ApplicationHelper.send(:include, MssConfigurableScmTicketIdPrefixApplicationHelperPatch)
+ApplicationHelper.send(:include, RedmineConfigurableScmTicketIdPrefixApplicationHelperPatch)
