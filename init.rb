@@ -6,7 +6,7 @@ Redmine::Plugin.register :redmine_configurable_scm_ticket_id_prefix do
 	name 'Redmine Configurable SCM Ticket ID Prefix'
 	author 'Brett Patterson'
 	description 'Allow admin to change the ticket ID prefix from "#" to something else to help resolve conflicts of other software reading the commit messages to reference tickets'
-	version '0.0.2'
+	version '0.0.2.1'
 
 	settings :default => {'empty' => true}, :partial => 'settings/ticket_id_prefix_settings'
 

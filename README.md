@@ -14,6 +14,10 @@ Once installed, under Administrator > Plugins click the "Configure" link for the
 
 # Version History
 
+## 0.0.2.1
+
+Fix issue where tagging in comments would not properly link to issue.
+
 ## 0.0.2
 
 Compatibility with Redmine 2.6

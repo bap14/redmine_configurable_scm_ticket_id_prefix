@@ -25,7 +25,7 @@ module RedmineConfigurableScmTicketIdPrefixApplicationHelperPatch
       alt_id_prefix_regexp = alt_id_prefix.collect{|aip| Regexp.escape(aip)}.join("|")
       #############################################################################
 
-      text.gsub!(%r{<a( [^>]+?)?>(.*?)</a>|([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|document|version|forum|news|message|project|commit|source|export)?((({alt_id_prefix_regexp})|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
+      text.gsub!(%r{<a( [^>]+?)?>(.*?)</a>|([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|document|version|forum|news|message|project|commit|source|export)?(((#{alt_id_prefix_regexp})|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
         tag_content, leading, esc, project_prefix, project_identifier, prefix, repo_prefix, repo_identifier, sep, identifier, comment_suffix, comment_id = $1, $3, $4, $5, $6, $7, $12, $13, $10 || $14 || $20, $16 || $21, $17, $19
         if tag_content
           $&
@@ -57,14 +57,14 @@ module RedmineConfigurableScmTicketIdPrefixApplicationHelperPatch
                                  :title => truncate_single_line_raw(changeset.comments, 100))
                 end
               end
-            elsif sep == '#'
+            elsif !alt_id_prefix.index(sep).nil?
               oid = identifier.to_i
               case prefix
               when nil
                 if oid.to_s == identifier &&
                   issue = Issue.visible.find_by_id(oid)
                   anchor = comment_id ? "note-#{comment_id}" : nil
-                  link = link_to("##{oid}#{comment_suffix}",
+                  link = link_to("#{sep}#{oid}#{comment_suffix}",
                                  issue_url(issue, :only_path => only_path, :anchor => anchor),
                                  :class => issue.css_classes,
                                  :title => "#{issue.subject.truncate(100)} (#{issue.status.name})")
