@@ -4,7 +4,6 @@ module RedmineConfigurableScmTicketIdPrefix
   module Patches
     module ApplicationHelperPatch
       def self.prepended(base)
-        Rails.logger.info "-----> Application Helper Patched For Redmine links"
 
         base.class_eval do
           alias_method :parse_redmine_links_without_alt_prefix, :parse_redmine_links
@@ -13,7 +12,6 @@ module RedmineConfigurableScmTicketIdPrefix
       end
 
       def parse_redmine_links_with_alt_prefix(text, default_project, obj, attr, only_path, options)
-        Rails.logger.info "-----> Custom SCM Ticket ID"
         #-----[ BEGIN CUSTOMIZATION ]----------
         ## Prep alternate ticket id prefix
         alt_id_prefix = Setting.plugin_redmine_configurable_scm_ticket_id_prefix["ticket_id_prefix"].downcase.split(",").collect(&:strip)
@@ -26,8 +24,6 @@ module RedmineConfigurableScmTicketIdPrefix
           alt_id_prefix_regexp = alt_id_prefix.collect{|aip| Regexp.escape(aip)}.join("|")
         end
         #-----[ END CUSTOMIZATION ]----------
-        Rails.logger.info "-----> " + alt_id_prefix_regexp
-        Rails.logger.info "-----> " + alt_id_prefix.inspect
 
         links_regex =
             %r{
